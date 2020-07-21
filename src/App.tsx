@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Drawer from "./components/Drawer"
+import useSWR, {SWRConfig} from 'swr'
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    const API = "https://jsonplaceholder.typicode.com";
+
+    return (
+        <SWRConfig
+            value={{
+                fetcher: (path: string) => {
+                    // could attach token or other headers
+                    console.log("fetching: " + path);
+                    return fetch(API + path).then(res => res.json());
+                }
+            }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <Drawer/>
+        </SWRConfig>
+    );
 }
 
 export default App;
